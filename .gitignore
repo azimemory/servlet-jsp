@@ -15,7 +15,10 @@ local.properties
 .recommenders
 .project
 .classpath
+<<<<<<< HEAD
 Servers
+=======
+>>>>>>> ab21dd3c8da705ad5f8144474722d6c959aef01a
 
 # Compiled class file
 *.class
