@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="/servlet/response">
+	<button>response 확인</button>
+</form>
+<pre>
+	
+	HttpServletResponse : 클라이언트에게 응답을 보내기 위한 기능들을 제공하는 객체
+	Content-type : 서버와 브러우저간 통신이 발생할 때 본문으로 전달되는 데이터가 어떤 타입의 데이터
+				인지 알려주기 위해 지정하는 헤더, mime-type 또는 charset 등을 작성한다.
+	MIME TYPE
+		text(문자) : text/plain, text/html, text/css, text/javascript
+		image : image/gif, image/png, image/jpeg...
+		application (바이트) : application/octet-stream(이진데이터)
+		multipart(복합) : 바운더리를 사용해서 데이터들을 구분	
+
+    URI : 인터넷상의 자원을 식별하기 위한 문자열
+    URL : 인터넷상의 자원의 위치를 나타내는 문자열
+    
+    http://localhost:9090/servlet/book.html?title=자바의정석
+    	호스트가 localhost:9090인 웹 어플리케이션의 root폴더 아래에 있는 
+    	제목이 자바의 정석인 book.html을 원한다.
+    	 => 정확하게 자원을 식별하는 문자열이기 때문에 URI
+    
+    http://localhost:9090/servlet/book.html
+    	자원의 위치는 있지만, 정확하게 자원을 식별하기 위한 파라미터는 없음.
+    	=> 자원의 위치만 나타냄으로 URL 
+    
+    http://localhost:9090/servlet/book.html?title=자바의정석
+    http://localhost:9090/servlet/book.html?title=자바스크립트의 정석
+    	=> 같은 URL
+    	=> 다른 URI
+</pre>
+
+
+</body>
+</html>

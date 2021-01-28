@@ -1,0 +1,64 @@
+# Web프로젝트 만들기
+
+Dynamic Web Project로 생성.
+new에서 보이지 않는다면, perspective확인. 
+Java개발환경이면, 바로 앞에 위치한 open perspective버튼으로 jee선택.
+
+프로젝트 생성시, 프로젝트이름말고도 설정할 것이 많다. 절대 이름쓰고, finish하지 말것.
+
+* Target Runtime에서 지정해둔 runtime 환경에 바인딩
+* 웹모듈확인 : import한 프로젝트가 버젼이 맞지 않는 경우가 있음.
+
+* build path 확인 : 기본값 build/classes
+
+* context root : 기본값은 project이름이지만, 보안상 매핑된 이름을 사용해야 한다. 
+* content directory : WebContent. 톰캣이 정한 루트디렉토리 위치. 
+* generate web.xml deployment descriptor 체크
+	프로젝트 deploy시(tomcat 시작!) 가장 먼저 web.xml파일을 웹 컨테이너가 읽어
+	지시대로 처리함. 서블릿, 필터, 랩퍼, 리스너에 대한 경로정보등이 담겨있음.
+	
+web.xml 
+* 배포서술자(Servlet, Filter, Wrapper등으로 연결해주는 역할)
+* 7/8버젼에서 annotation방식이 이를 대체하긴 하지만, filter, wrapper등록시 반드시 필요.
+* 프레임워크에는 반드시 필요함.
+
+
+생성후에는 디렉토리, WEB-INF/web.xml의 위치등을 설명.
+* 루트디렉토리 : 실제로 클라이언트가 웹에 접근할 때 http://ip:port/루트디렉토리명 으로 접근.
+이때, 디렉토리명이 공개되면 보안상 위험함. 실제 루트디렉토리는 WebContent이지만, context-root명으로 보임.
+
+* web.xml 
+	* display-name 프로젝트이름, 오타나면, 에러유발
+	* xml파일은 첫줄에 메타정보가 있다.
+	* welcome파일은 쓸거만 남기고, 나머지는 삭제함.
+	* welcome파일은 반드시 root디렉토리에 위치시킬것.
+	* index.htm  : 기본적으로 html파일과 동일. 세 글자 확장자를 가진 여덟 문자 파일 이름을 지원 이전 운영 체제와의 호환성을 위해 HTM로 축약된거임.
+
+## index.html작성후 테스트
+여기서 실패한 학생은 고쳐주지 말고, 처음부터 다시 해볼수 있도록하자.
+
+## build-path 수정 
+두번째 프로젝트부터 적용.
+루트디렉토리에서 컴파일된 자바파일과 jsp파일을 관리하겠음.
+
+1. java파일 build-path 
+속성 - Java Build Path - Default Output Folder - Browse - Create new Folder(해당디렉토리지정후)
+`프로젝트명/WebContent/WEB-INF/classes`
+사용하지 않는 build 폴더는 삭제함.
+
+Navitgator View - org.eclipse.wst.common.component에서 확인해도 경로가 바뀌지는 않고 있다.
+
+2. jsp파일 build-path 경로변경.
+`WebContent/META-INF/context.xml`
+지역서버-config 디렉토리의 context.xml을 기초로 Context에 workDir에 절대경로로 지정.
+런타임에 디렉토리 하위에 org/apache/jsp를 루트디렉토리로 컴파일됨.
+
+<Context workDir="C:\Users\user1\Dropbox\Coding\khEdu\Workspaces\webserver_workspace\02_HelloMVC\WebContent\WEB-INF\jspwork">
+
+지역서버-config/context.xml을 수정해도 동일함.(둘다 기술할 경우, 지역서버context.xml이 우선순위)
+
+
+
+
+
+

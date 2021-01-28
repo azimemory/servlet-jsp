@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Reqeust</h1>
+	<h2>GET</h2>
+	<form action="/servlet/request/get">
+		<label>name : <input type="text" name="name"></label><br>
+		<label>age : <input type="number" name="age"></label><br>
+		<button>전송</button>
+	</form>
+	<pre>
+		GET 메서드는 서버로부터 정보를 조회하기 위해 설계된 메서드이다.
+		요청 파라미터는 쿼리스트링을 통해 전달한다.
+		query String : 이름과 값이 쌍으로 이루어져 있고, 여러 값을 전달할 경우 & 사용해 구분
+			ex)url?name=value&name=value&...
+		query String의 경우 파라미터가 브라우저창을 통해 노출되어 보안에 취약하다.
+		전송하는 길이에 제한이 있어 많은 정보를 전달할 수 없다.
+	</pre>
+
+	<h2>POST</h2>
+	<form action="/servlet/request/post" method='post'>
+		<label>name : <input type="text" name="name"></label><br>
+		<label>age : <input type="number" name="age"></label><br>
+		<button>전송</button>
+	</form>
+	<pre>
+		POST방식은 리소스를 생성/변경하기 위해 설계되었다.
+		파라미터를 body에 담아서 전달한다.
+		전송하는 길이에 제한이 없습니다.
+		POST로 요청하는 경우, body에 정보가 담기기 때문에 Content-type 헤더를 작성해야한다.
+		form태그의 경우 enctype 속성을 사용해 mime-type 을 지정할 수 있다.
+		만약 enctype 을 지정하지 않을 경우 application/x-www-form-urlencoded 방식이 기본값으로 잡힌다.	
+	</pre>
+
+	<h2>POST, enctype=multipart/form-data</h2>
+	<form action='/servlet/request/multi' method='post' enctype='multipart/form-data'>
+		<label>name : <input type="text" name="name"></label><br>
+		<label>file : <input type="file" name="file"></label><br>
+		<button>전송</button>
+	</form>
+	<pre>
+		multipart/form-data
+		여러가지 mime-type의 데이터가 전달될 경우 사용하는 mime-type
+	</pre>
+
+
+
+
+
+</body>
+</html>

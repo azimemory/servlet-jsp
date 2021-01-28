@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- form Tag : 웹페이지의 정보를 서버로 전송하는 역할 
+		action : url
+			action태그에 url을 작성할 때 상대/절대경로 모두 사용 가능
+			절대경로만 사용할 것, 상대경로가 오히려 혼란스럽고, 리소스위치가 변경될 경우 경로가 꼬임
+		method : method / 기본값 : get
+			HTTP Request는 여러 종류가 있지만, HTML5에서는 post,get만 지원
+		enctype : mime타입 지정 / 기본값 : application/x-www-form-urlencoded
+	 -->
+	<form action="/servlet/first" method="post">
+		<h1>사용하실 닉네임을 입력하세요</h1>
+		<!-- name 속성에 담긴 값이, HTTP 요청의 parameter name 값
+			 value 속성에 담긴 값이, parameter value 값
+		 -->
+		<input type="text" name="nick">
+		<button>입장하기</button>
+	</form>
+</body>
+</html>

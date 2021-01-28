@@ -1,0 +1,427 @@
+# Servlet테스트 
+webcontainer
+request
+response
+
+
+코딩레벨
+1. 하드코딩 서블릿도 그냥 하나의 자바클래스
+2. 컨텍스트메뉴 - source - override/implement method 이용.
+3. new - servlet 이용
+
+
+## testServlet1 
+
+@01_servlet/testPerson1.html
+유효성 검사는 생략한다. 입력값이 없으면, NullPointerException 발생.
+
+	<h2>개인 취향 테스트(GET)</h2>
+	당신의 취향을 테스트 합니다.<br/>
+	데이터 입력후 확인 버튼을 누르세요<br/>
+	
+	<form name="personFrm" action="/helloweb/testPerson.do" method="get"> 
+	 <ul style="list-style: none; line-height: 200%;">
+		<li>이름은? <input type="text" name="name" size="10" /></li>
+		<li>좋아하는 색?
+			빨강<input type="radio" name="color" value="빨강" />
+			파랑<input type="radio" name="color" value="파랑" />
+			노랑<input type="radio" name="color" value="노랑" />
+			초록<input type="radio" name="color" value="초록" />
+		</li>
+		<li>좋아하는 동물은?
+			<select name="animal">
+				<option value="강아지">강아지</option>
+				<option value="고양이">고양이</option>
+				<option value="병아리">병아리</option>
+			</select>	
+		</li>
+		<li>좋아하는 음식?(모두 고르세요)
+			<label for="food1">짜장면</label><input type="checkbox" name="food" id="food1" value="짜장면" />
+			<label for="food2">짬봉</label><input type="checkbox" name="food" id="food2" value="짬봉" />
+			<label for="food3">탕수육</label><input type="checkbox" name="food" id="food3" value="탕수육" />
+			<label for="food4">양장피</label><input type="checkbox" name="food" id="food4" value="양장피" />
+			<label for="food5">팔보채</label><input type="checkbox" name="food" id="food5" value="팔보채" /> 
+		</li>
+		<li>
+			<br/>
+			<input type="submit" name="btnOK" id="btnOK" value="확인"  />&nbsp;&nbsp; 
+			<input type="reset"  value="취소" />
+		</li>
+		
+	 </ul>
+	
+	</form>
+</body>
+
+
+@TestPersonServlet.java
+	
+	package com.kh.servlet;
+
+	import java.io.IOException;
+	import java.io.PrintWriter;
+
+	import javax.servlet.ServletException;
+	import javax.servlet.http.HttpServlet;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
+
+	public class TestPersonServlet extends HttpServlet {
+
+		@Override
+		public void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws IOException, ServletException{
+			
+			
+			//첫번째 파라미터인 HttpServletRequest request는 웹브라우져에서 사용자가 요청한 내용을 받아주는 용도로 쓰인다.
+			//두번째 파라미터인 HttpServletResponse response 은 첫번째 파라미터에서 처리한 결과를  웹브라우져에서 사용자에게 보여주기 위한 용도로 쓴다.
+			String name = request.getParameter("name");
+			String color = request.getParameter("color");
+			String animal = request.getParameter("animal");
+			//체크박스등 복수개의 정보를 받을 때는 name값을 기준으로 배열로 받아야 한다.
+			String[] foodArr = request.getParameterValues("food");
+			
+			
+			System.out.println("name : " + name);
+			System.out.println("color : " + color);
+			System.out.println("animal : " + animal); 
+			
+			for(int i=0; i<foodArr.length; i++) {
+				System.out.println("foodArr[" + i + "] : " + foodArr[i]); 
+			}
+			
+			
+			//Response 핸들링 : 화면출력
+			response.setContentType("text/html; charset=UTF-8");
+			//Response객체의 문자기반 출력스트림
+			PrintWriter out = response.getWriter();
+			
+			out.println("<html>");
+			out.println("<head><title>개인취향 테스트 결과화면</title></head>");
+			out.println("<body>");
+			out.println("<h2 style='color: red;'>개인취향 테스트 결과(GET)</h2>");
+			out.printf("<span style='color:lightblue; font-weight: bold;'>%s</span> 님의 개인취향은 <br /><br />  ", name);
+			out.printf("<span style='color:lightgreen; font-weight: bold;'>%s</span>색을 좋아하고, <span style='color:lightred; font-weight: bold;'>%s</span>를 좋아합니다. <br /> <br /> ", color, animal);
+			out.print("좋아하는 음식은 ");
+			
+			for(int i=0; i<foodArr.length; i++) {
+				if (i == 0) {
+					out.printf("%s", foodArr[i]);
+				} else {
+					out.printf(", %s", foodArr[i]);
+				}
+			}
+			out.println("입니다.");
+			out.println("</body>");
+			out.println("</html>");
+			
+		} // end of doGet(HttpServletRequest request, HttpServletResponse response) 
+		
+		
+	}
+
+
+@web.xml
+1. servlet태그
+	* 배포명 : servlet-name
+	* 실제servlet클래스 : servlet-class
+2. servlet-mapping태그
+	* 배포명 : servlet-name
+	* 클라이언트 요청값(가짜주소) : url-pattern
+
+	<servlet>
+		<servlet-name>TestPersonServlet</servlet-name>
+		<servlet-class>com.kh.servlet.TestPersonServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TestPersonServlet</servlet-name>
+		<url-pattern>/testPerson.do</url-pattern>
+	</servlet-mapping>
+
+
+
+
+## get/post
+서버전송시 메소드 
+* get -> doGet
+* post -> doPost
+
+HTTP method 종류
+1. GET : url로 자원 또는 파일을 달라고(get) 요청. 몸통 없는 요청
+2. POST : Request에 첨부한 몸체 정보를 서버로 보내어, 요청한 URL로 이 정보를 넘겨주라고 요청함. 
+3. HEAD 
+4. TRACE
+5. PUT
+6. DELETE
+7. OPTIONS
+8. CONNECT
+
+HTTP이미지 참조
+
+
+## testServlet2 (POST)
+
+@01_servlet/testPerson2.html
+
+	<body>
+		<h2>개인 선호도 테스트(POST)</h2>
+		당신의 선호도를 테스트 합니다.<br/>
+		데이터 입력후 확인 버튼을 누르세요<br/>
+		
+		<form name="personFrm" action="/helloweb/testPerson2.do" method="get"> 
+		<ul style="list-style: none; line-height: 200%;">
+			<li>이름은? <input type="text" name="name" size="10" /></li>
+			<li>좋아하는 색?
+				빨강<input type="radio" name="color" value="빨강" />
+				파랑<input type="radio" name="color" value="파랑" />
+				노랑<input type="radio" name="color" value="노랑" />
+				초록<input type="radio" name="color" value="초록" />
+			</li>
+			<li>좋아하는 동물은?
+				<select name="animal">
+					<option value="강아지">강아지</option>
+					<option value="고양이">고양이</option>
+					<option value="병아리">병아리</option>
+				</select>	
+			</li>
+			<li>좋아하는 음식?(모두 고르세요)
+				<label for="food1">짜장면</label><input type="checkbox" name="food" id="food1" value="짜장면" />
+				<label for="food2">짬봉</label><input type="checkbox" name="food" id="food2" value="짬봉" />
+				<label for="food3">탕수육</label><input type="checkbox" name="food" id="food3" value="탕수육" />
+				<label for="food4">양장피</label><input type="checkbox" name="food" id="food4" value="양장피" />
+				<label for="food5">팔보채</label><input type="checkbox" name="food" id="food5" value="팔보채" /> 
+			</li>
+			<li>
+				<br/>
+				<input type="submit" name="btnOK" id="btnOK" value="확인" />&nbsp;&nbsp; 
+				<input type="reset"  value="취소" />
+			</li>
+			
+		</ul>
+		
+		</form>
+	</body>
+
+
+
+@TestPersonServlet2.java
+
+	package com.kh.servlet;
+
+	import java.io.IOException;
+	import java.io.PrintWriter;
+	import javax.servlet.ServletException;
+	import javax.servlet.http.HttpServlet;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
+
+	public class TestPersonServlet2 extends HttpServlet {
+
+		@Override
+		public void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws IOException, ServletException{
+			
+			String name = request.getParameter("name");
+			String color = request.getParameter("color");
+			String animal = request.getParameter("animal");
+			//체크박스등 복수개의 정보를 받을 때는 name값을 기준으로 배열로 받아야 한다.
+			String[] foodArr = request.getParameterValues("food");
+			
+			
+			System.out.println("name : " + name);
+			System.out.println("color : " + color);
+			System.out.println("animal : " + animal); 
+			
+			for(int i=0; i<foodArr.length; i++) {
+				System.out.println("foodArr[" + i + "] : " + foodArr[i]); 
+			}
+			
+			
+			//Response 핸들링 : 화면출력
+			response.setContentType("text/html; charset=UTF-8");
+			//Response객체의 문자기반 출력스트림
+			PrintWriter out = response.getWriter();
+			
+			out.println("<html>");
+			out.println("<head><title>개인취향 테스트 결과화면</title></head>");
+			out.println("<body>");
+			out.println("<h2 style='color: red;'>개인취향 테스트 결과(GET)</h2>");
+			out.printf("<span style='color:lightblue; font-weight: bold;'>%s</span> 님의 개인취향은 <br /><br />  ", name);
+			out.printf("<span style='color:lightgreen; font-weight: bold;'>%s</span>색을 좋아하고, <span style='color:lightred; font-weight: bold;'>%s</span>를 좋아합니다. <br /> <br /> ", color, animal);
+			out.print("좋아하는 음식은 ");
+			
+			for(int i=0; i<foodArr.length; i++) {
+				if (i == 0) {
+					out.printf("%s", foodArr[i]);
+				} else {
+					out.printf(", %s", foodArr[i]);
+				}
+			}
+			out.println("입니다.");
+			out.println("</body>");
+			out.println("</html>");
+			
+		} // end of doGet(HttpServletRequest request, HttpServletResponse response) 
+		
+	}
+
+
+@web.xml 서블릿 등록
+
+
+
+
+
+한글깨짐 확인
+@TestPersonServlet.java에 추가
+[중요] request.getParameter("name")보다 먼저 기술해야 한다.
+
+	//POST 방식으로 넘겨온 데이터를 처리해주는 메소드 doPost(request, response)메소드인데,
+	//넘겨받은 데이터가 한글일 경우(영어가 아닌 경우) 인코딩 처리를 해야 한다.
+	//[중요] request.getParameter("name")보다 먼저 기술해야 한다.
+	request.setCharacterEncoding("UTF-8");
+
+
+## TestPersonServlet3
+서버에서 사용자정보를 기준으로 다음정보를 제안함.
+
+
+@TestPersonServlet3.java
+
+	package com.kh.servlet;
+
+	import java.io.IOException;
+	import java.io.PrintWriter;
+	import javax.servlet.ServletException;
+	import javax.servlet.http.HttpServlet;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
+
+	public class TestPersonServlet3 extends HttpServlet {
+
+		@Override
+		public void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws IOException, ServletException{
+			
+			request.setCharacterEncoding("utf8");
+			
+			String name = request.getParameter("name");
+			String color = request.getParameter("color");
+			String animal = request.getParameter("animal");
+			//체크박스등 복수개의 정보를 받을 때는 name값을 기준으로 배열로 받아야 한다.
+			String[] foodArr = request.getParameterValues("food");
+			
+			
+			System.out.println("name : " + name);
+			System.out.println("color : " + color);
+			System.out.println("animal : " + animal); 
+			
+			for(int i=0; i<foodArr.length; i++) {
+				System.out.println("foodArr[" + i + "] : " + foodArr[i]); 
+			}
+			
+			String recommendation = "";
+			
+			//사용자가 좋아하는 색깔을 기준으로 오브제를 추천해줌.
+			switch (color) {
+				case "빨강": recommendation = "빨간 페라리"; break;
+				case "노랑": recommendation = "노란 카레"; break;
+				case "초록": recommendation = "초록 붕어빵"; break;
+				case "파랑": recommendation = "파란 캔디바"; break;
+			}
+			
+			//Response 핸들링 : 화면출력
+			response.setContentType("text/html; charset=UTF-8");
+			//Response객체의 문자기반 출력스트림
+			PrintWriter out = response.getWriter();
+			
+			out.println("<html>");
+			out.println("<head><title>개인취향 테스트 결과화면</title></head>");
+			out.println("<body>");
+			out.println("<h2 style='color: red;'>개인취향 테스트 결과(POST)</h2>");
+			out.printf("<span style='color:lightblue; font-weight: bold;'>%s</span> 님의 개인취향은 <br /><br />  ", name);
+			out.printf("<span style='color:lightgreen; font-weight: bold;'>%s</span>색을 좋아하고, <span style='color:lightred; font-weight: bold;'>%s</span>를 좋아합니다. <br /> <br /> ", color, animal);
+			out.print("좋아하는 음식은 ");
+			
+			for(int i=0; i<foodArr.length; i++) {
+				if (i == 0) {
+					out.printf("%s", foodArr[i]);
+				} else {
+					out.printf(", %s", foodArr[i]);
+				}
+			}
+			out.println("입니다.<br>");
+			out.println("<h3>HelloWeb 추천<h3>");
+			out.println("<p>"+recommendation+" 어떠세요?");
+			out.println("</body>");
+			out.println("</html>");
+			
+		} // end of doGet(HttpServletRequest request, HttpServletResponse response) 
+		
+	}
+
+
+
+문제점
+> html 파일 수정시, 서버재시동해야함.
+> html에는 서버에서 얻어온 정보를 동적으로 반영할 수 없음.
+
+
+@testPerson3End.jsp
+
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8"%>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>개인취향 테스트 결과화면 JSP</title>
+	</head>
+	<body>
+	<h2 style='color: red;'>개인취향 테스트 결과(POST)</h2>
+	<span style='color:lightblue; font-weight: bold;'>{name}</span> 님의 개인취향은 <br /><br />
+	<span style='color:lightgreen; font-weight: bold;'>{color}</span>색을 좋아하고, <span style='color:lightred; font-weight: bold;'>{animal}</span>를 좋아합니다. <br /> <br />
+	좋아하는 음식은  {food}입니다.<br>
+	<h3>HelloWeb 추천<h3>
+	<p>{recommendation} 어떠세요?
+	</body>
+	</html>
+
+위에서 {}안의 변수를 해결해야 함.
+
+
+## TestPersonServlet4
+request객체에 값을 담아두고, jsp에서 이 request객체를 참조해 속성값에 접근한다.
+jsp 코드가 모두 이해되지 않아도 좋다. 대신 html과 java코드가 섞어 쓸수 있다는 것에 주목하자.
+
+@testPerson4.html
+
+@TestPersonServlet4.java
+
+@testPerson4End.jsp
+기존testPerson3End.jsp을 이름변경후.
+
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8"%>
+	<%
+		String name = (String)request.getAttribute("name");
+		String color = (String)request.getAttribute("color");
+		String animal = (String)request.getAttribute("animal");
+		String foods = (String)request.getAttribute("foods");
+		String recommendation = (String)request.getAttribute("recommendation");
+	%>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>개인취향 테스트 결과화면 JSP</title>
+	</head>
+	<body>
+	<h2 style='color: red;'>개인취향 테스트 결과(POST)-jsp</h2>
+	<span style='color:lightblue; font-weight: bold;'><%=name%></span> 님의 개인취향은 <br /><br />
+	<span style='color:lightgreen; font-weight: bold;'><%=color %></span>색을 좋아하고, <span style='color:lightred; font-weight: bold;'><%=animal %></span>를 좋아합니다. <br /> <br />
+	좋아하는 음식은  <%=foods %>입니다.<br>
+	<h3>HelloWeb 추천<h3>
+	<p><%=recommendation %> 어떠세요?
+	</body>
+	</html>
