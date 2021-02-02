@@ -66,7 +66,6 @@ public class MailSender {
 		return session;
 	}
 	
-	
 	private Multipart getMultipart(String htmlText) throws MessagingException {
         Multipart mp = new MimeMultipart();
         MimeBodyPart htmlPart = new MimeBodyPart();

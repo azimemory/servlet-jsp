@@ -28,31 +28,56 @@ public class MemberService {
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	
 	public Member memberAuthenticate(String userId, String password){	
-		Connection conn = jdt.getConnection();
-		//Dao에게 userId와 password로 식별할 수 있는 회원정보를 DB에서 조회할 것을 요청
-		Member member = memberDao.memberAuthenticate(conn, userId, password);
-		jdt.close(conn);
+		Member member = null; 
+		Connection conn = null; 
+		
+		try {
+			conn= jdt.getConnection();
+			member = memberDao.memberAuthenticate(conn, userId, password);
+		} finally {
+			jdt.close(conn);
+		}
+		
 		return member;
 	}
 	
 	public Member selectMemberById(String userId){	
-		Connection conn = jdt.getConnection();
-		Member member = memberDao.selectMemberById(conn, userId);
-		jdt.close(conn);
+		Member member = null; 
+		Connection conn = null; 
+		
+		try {
+			conn = jdt.getConnection();
+			member = memberDao.selectMemberById(conn, userId);
+		} finally {
+			jdt.close(conn);
+		}
+
 		return member;
 	}
 	
 	public List<Member> selectMemberByRegdate(Date begin, Date end){
-		Connection conn = jdt.getConnection();
-		List<Member> memberList = memberDao.selectMemberByRegdate(conn, begin, end);
-		jdt.close(conn);
+		Connection conn = null;
+		List<Member> memberList= null;
+		
+		try {
+			conn = jdt.getConnection();
+			memberList= memberDao.selectMemberByRegdate(conn, begin, end);
+		} finally {
+			jdt.close(conn);
+		}
+		
 		return memberList;
 	}
  		
 	public ArrayList<Member> selectMemberList(){
-		Connection conn = jdt.getConnection();
-		ArrayList<Member> memberList = memberDao.selectMemberList(conn);
-		jdt.close(conn);
+		Connection conn = null;
+		ArrayList<Member> memberList = null;
+		try {
+			conn = jdt.getConnection();
+			memberList= memberDao.selectMemberList(conn);
+		} finally {
+			jdt.close(conn);
+		}
 		return memberList;
 	}
 	

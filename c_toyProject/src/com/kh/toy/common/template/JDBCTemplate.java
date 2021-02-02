@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
+
+import oracle.jdbc.OracleConnection;
+import oracle.jdbc.pool.OracleDataSource;
 
 public class JDBCTemplate {
 	
@@ -15,13 +19,7 @@ public class JDBCTemplate {
 	
 	//생성자를 private으로 바꿔서 외부에서 JDBCTemplate의 생성을 차단
 	private JDBCTemplate() {
-		//1. OracleDriver를 jvm에 등록
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 	
 	//외부에서 JDBCTemplate의 인스턴스를 반환받기 위한 메서드
@@ -35,14 +33,22 @@ public class JDBCTemplate {
 	
 	public Connection getConnection() {
 		
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
-		String user = "bm";
-		String password = "USER11";
+		String url = "jdbc:oracle:thin:@pclassdb_high?TNS_ADMIN=C:/CODE/afternoon/E_SERVLET/Wallet_pclassDB";
+		String user = "admin";
+		String password = "1256812gk!A!";
 		
+		Properties info = new Properties();     
+	    info.put(OracleConnection.CONNECTION_PROPERTY_USER_NAME, user);
+	    info.put(OracleConnection.CONNECTION_PROPERTY_PASSWORD, password);          
+	    info.put(OracleConnection.CONNECTION_PROPERTY_DEFAULT_ROW_PREFETCH, "20");    
+	  
 		Connection conn = null;
 		
 		try {
-			conn = DriverManager.getConnection(url,user,password);
+			OracleDataSource ods = new OracleDataSource();
+			ods.setURL(url);    
+			ods.setConnectionProperties(info);
+			conn = ods.getConnection();
 			
 			//Transaction 관리를 개발자가 하기 위해 AutoCommit 설정 끄기
 			conn.setAutoCommit(false);
