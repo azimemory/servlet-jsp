@@ -31,12 +31,9 @@ public class EncodingFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		request.setCharacterEncoding("utf-8");
-		HttpServletResponse res = (HttpServletResponse) response;
-		
+		request.setCharacterEncoding("utf-8");		
 		//모든 요청에 대한 응답해더가 적용이 되기 때문에 정적 리소스인 html이나 css, js도 
-		//text/html로 컨텐츠타입을 가지게 된다. css를 브라우저가 html파일로 인식하기 때문에
-		//css 코드가 정상적으로 동작하지 않게 된다.
+		//text/html로 컨텐츠타입을 가지게 된다. css를 브라우저가 html파일로 인식하기 때문에 css 코드가 정상적으로 동작하지 않게 된다.
 		//res.setHeader("content-type", "text/html; charset=utf-8");
 		
 		// pass the request along the filter chain

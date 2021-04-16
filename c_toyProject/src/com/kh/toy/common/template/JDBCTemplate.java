@@ -37,10 +37,11 @@ public class JDBCTemplate {
 		String user = "admin";
 		String password = "1256812gk!A!";
 		
-		Properties info = new Properties();     
-	    info.put(OracleConnection.CONNECTION_PROPERTY_USER_NAME, user);
-	    info.put(OracleConnection.CONNECTION_PROPERTY_PASSWORD, password);          
-	    info.put(OracleConnection.CONNECTION_PROPERTY_DEFAULT_ROW_PREFETCH, "20");    
+		Properties info = new Properties();  
+   
+	    	info.put(OracleConnection.CONNECTION_PROPERTY_USER_NAME, user);
+	    	info.put(OracleConnection.CONNECTION_PROPERTY_PASSWORD, password);          
+	    	info.put(OracleConnection.CONNECTION_PROPERTY_DEFAULT_ROW_PREFETCH, "20");    
 	  
 		Connection conn = null;
 		

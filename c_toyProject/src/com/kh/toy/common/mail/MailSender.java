@@ -41,7 +41,7 @@ public class MailSender {
 	        Transport.send(msg); //전송
 	        
 		}catch(MessagingException mex) {
-	        throw new ToAlertException(ErrorCode.MAIL01,mex);
+	        throw new ToAlertException(ErrorCode.MAIL_SENDING_ERROR,mex);
 	    }
 	}
 	

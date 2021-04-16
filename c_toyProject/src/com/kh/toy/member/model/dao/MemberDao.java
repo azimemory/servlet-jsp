@@ -62,7 +62,7 @@ public class MemberDao {
 			}
 		//SQLException : db와 통신 중에 발생하는 모든 예외를 담당하는 Exception	
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.SM01,e);
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR,e);
 		} finally {
 			jdt.close(rset, pstm);
 		}
@@ -94,7 +94,7 @@ public class MemberDao {
 				member.setIsLeave(rset.getInt("is_leave"));
 			}
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.SM01,e);
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR,e);
 		} finally {
 			jdt.close(rset,pstm);
 		}
@@ -125,7 +125,7 @@ public class MemberDao {
 				memberList.add(member);
 			}
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.SM01,e);
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR,e);
 		}finally {
 			jdt.close(rset,pstm);
 		}
@@ -149,7 +149,7 @@ public class MemberDao {
 			
 			res = pstm.executeUpdate();
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.IM01,e);
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR,e);
 		}finally {
 			jdt.close(pstm);
 		}
@@ -171,7 +171,7 @@ public class MemberDao {
 			pstm.setString(2, member.getUserId());
 			res = pstm.executeUpdate();
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.UM01,e);
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR,e);
 		}finally {
 			jdt.close(pstm);
 		}
@@ -189,7 +189,7 @@ public class MemberDao {
 			pstm.setString(1, userId);
 			res = pstm.executeUpdate();
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.DM01,e);
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR,e);
 		}finally {
 			jdt.close(pstm);
 		}
@@ -220,7 +220,7 @@ public class MemberDao {
 				memberList.add(member);
 			}
 		} catch (SQLException e){
-			throw new DataAccessException(ErrorCode.SM01,e);
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR,e);
 		} finally {
 			jdt.close(rset, pstm);
 		}

@@ -29,7 +29,7 @@ public class BoardDao {
 			pstm.setString(3, board.getContent());
 			pstm.executeUpdate();
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.IB01, e);
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR, e);
 		}finally {
 			jdt.close(pstm);
 		}
@@ -58,7 +58,7 @@ public class BoardDao {
 			pstm.setString(3,fileVo.getSavePath());
 			pstm.executeUpdate();
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.IF01, e);
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR, e);
 		}finally {
 			jdt.close(pstm);
 		}
@@ -87,7 +87,7 @@ public class BoardDao {
 				board.setContent(rs.getString(5));
 			}
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.SB01, e);
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR, e);
 		}finally {
 			jdt.close(rs, pstm);
 		}
@@ -123,7 +123,7 @@ public class BoardDao {
 				res.add(fileVo);
 			}
 		} catch (SQLException e) {
-			throw new DataAccessException(ErrorCode.SF01,e);
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR,e);
 		}finally {
 			jdt.close(rs,pstm);
 		}

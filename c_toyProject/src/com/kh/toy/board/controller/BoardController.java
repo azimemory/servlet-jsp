@@ -53,7 +53,7 @@ public class BoardController extends HttpServlet {
 			break;
 		case "download": downloadFile(request,response);
 			break;
-		default: throw new ToAlertException(ErrorCode.CD_404);
+		default: throw new ToAlertException(ErrorCode.CODE_404);
 
 		}
 	}

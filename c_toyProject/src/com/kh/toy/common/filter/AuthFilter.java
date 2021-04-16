@@ -47,12 +47,12 @@ public class AuthFilter implements Filter {
 				switch(uriArr[2]) {
 				case "mypage" :
 					if(session.getAttribute("user") == null) {
-						throw new ToAlertException(ErrorCode.AUTH01);
+						throw new ToAlertException(ErrorCode.UNAUTHORIZED_PAGE);
 					}
 					break;
 				case "joinimpl" :
 					if(session.getAttribute("persistUser") == null) {
-						throw new ToAlertException(ErrorCode.AUTH02);
+						throw new ToAlertException(ErrorCode.UNAUTHORIZED_PAGE);
 					}	
 					break;
 				}
@@ -60,12 +60,12 @@ public class AuthFilter implements Filter {
 				switch(uriArr[2]) {
 				case "form" :
 					if(session.getAttribute("user") == null) {
-						throw new ToAlertException(ErrorCode.AUTH01);
+						throw new ToAlertException(ErrorCode.UNAUTHORIZED_PAGE);
 					}
 					break;
 				case "upload" :
 					if(session.getAttribute("user") == null) {
-						throw new ToAlertException(ErrorCode.AUTH01);
+						throw new ToAlertException(ErrorCode.UNAUTHORIZED_PAGE);
 					}	
 					break;
 				}

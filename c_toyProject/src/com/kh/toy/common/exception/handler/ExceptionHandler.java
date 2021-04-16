@@ -35,7 +35,7 @@ public class ExceptionHandler extends HttpServlet {
 		
 		CustomException e = (CustomException)request.getAttribute("javax.servlet.error.exception");
 		
-		request.setAttribute("msg", e.error.errMsg);
+		request.setAttribute("msg", e.error.desc);
 		request.setAttribute("url", e.error.url);
 		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
 		.forward(request, response);
