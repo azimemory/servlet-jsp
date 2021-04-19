@@ -19,6 +19,7 @@ public class CustomException extends RuntimeException {
 	public CustomException(ErrorCode error, Exception e) {
 		this.error = error;
 		//콘솔에 log 작성
+		System.out.println(e.getMessage());
 		e.printStackTrace();
 	}
 	

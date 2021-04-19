@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/view/include/head.jsp" %>
+<%@ include file="/WEB-INF/views/include/head.jsp" %>
 <body>
 	<%-- request의 msg 속성에 담겨온 message를 alert 하고
 		 url 속성에 담겨온 주소로 페이지를 이동 --%>

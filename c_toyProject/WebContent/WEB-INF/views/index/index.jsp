@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/view/include/head.jsp" %>
+<%@ include file="/WEB-INF/views/include/head.jsp" %>
 <body>
+	<%@ include file="/WEB-INF/views/include/header.jsp" %>
 	<h1>Toy Project Index Page</h1>
 	
 	<c:choose>
@@ -14,6 +15,6 @@
 			<h2><a href="/member/logout">로그아웃</a></h2>
 		</c:otherwise>
 	</c:choose>
-	
+			<h2><a href="/board/list">게시판</a></h2>
 </body>
 </html>

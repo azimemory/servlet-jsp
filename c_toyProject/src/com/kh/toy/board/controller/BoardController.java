@@ -1,9 +1,6 @@
 package com.kh.toy.board.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.kh.toy.board.model.service.BoardService;
+import com.kh.toy.board.model.vo.Board;
 import com.kh.toy.common.code.ErrorCode;
 import com.kh.toy.common.exception.ToAlertException;
-import com.kh.toy.common.util.file.FileUtil;
 import com.kh.toy.member.model.vo.Member;
 
 /**
@@ -53,11 +50,12 @@ public class BoardController extends HttpServlet {
 			break;
 		case "download": downloadFile(request,response);
 			break;
+		case "list": boardList(request,response);
+			break;
 		default: throw new ToAlertException(ErrorCode.CODE_404);
 
 		}
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -68,7 +66,7 @@ public class BoardController extends HttpServlet {
 	
 	private void gotoForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/view/board/boardForm.jsp")
+		request.getRequestDispatcher("/WEB-INF/views/board/boardForm.jsp")
 		.forward(request, response);
 	}
 	
@@ -80,7 +78,7 @@ public class BoardController extends HttpServlet {
 		
 		request.setAttribute("alertMsg", "게시글 등록이 완료되었습니다.");
 		request.setAttribute("url", "/index");
-		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		request.getRequestDispatcher("/WEB-INF/views/common/result.jsp")
 		.forward(request, response);
 	}
 
@@ -89,13 +87,19 @@ public class BoardController extends HttpServlet {
 		String bdIdx = request.getParameter("bdIdx");
 		Map<String,Object> commandMap = boardService.selectBoardDetail(bdIdx);
 		request.setAttribute("data", commandMap);
-		request.getRequestDispatcher("/WEB-INF/view/board/boardView.jsp")
+		request.getRequestDispatcher("/WEB-INF/views/board/boardView.jsp")
 		.forward(request, response);
 	}
 	
 	private void downloadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String originFileName = request.getParameter("ofname");
-		String renameFileName = request.getParameter("rfname");
+		  // TOMCAT의 context.xml 파일에 아래 Resources 태그를 추가해 외부 경로를 URL로 접근할 수 있도록 처리해주자.
+		  // <Resources>
+      	  //	<PreResources className="org.apache.catalina.webresources.DirResourceSet"
+      	  //		webAppMount="/upload/" base="" />
+		  // </Resources>
+		 
+		String originFileName = request.getParameter("originFileName");
+		String renameFileName = request.getParameter("renameFileName");
 		String subPath = request.getParameter("savePath");
 		
 		response.setHeader("content-disposition", "attachment; filename="+URLEncoder.encode(originFileName,"utf-8"));
@@ -103,7 +107,17 @@ public class BoardController extends HttpServlet {
 		.forward(request, response);
 	}
 	
-	
+	private void boardList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int page = 1;
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		Map<String,Object> pageInfo = boardService.selectBoardList(page);
+		request.setAttribute("pageInfo", pageInfo);
+		request.getRequestDispatcher("/WEB-INF/views/board/boardList.jsp").forward(request, response);
+	}
+
 	
 	
 	

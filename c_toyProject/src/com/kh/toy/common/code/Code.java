@@ -4,7 +4,7 @@ public enum Code {
 	
 	//DOMAIN("http://www.pclass.com"),
 	DOMAIN("http://localhost:9090"),
-	EMAIL("killsky2014@naver.com"),
+	EMAIL("azimemory@gmail.com"),
 	UPLOAD("C:\\CODE\\afternoon\\E_SERVLET\\resources\\upload\\");
 	
 	public String desc;

@@ -27,7 +27,7 @@ public class IndexController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/view/index/index.jsp")
+		request.getRequestDispatcher("/WEB-INF/views/index/index.jsp")
 		.forward(request, response);
 	}
 

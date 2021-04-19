@@ -1,11 +1,6 @@
 package com.kh.toy.member.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -15,11 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.kh.toy.common.code.Code;
-import com.kh.toy.common.code.ErrorCode;
-import com.kh.toy.common.exception.ToAlertException;
-import com.kh.toy.common.mail.MailSender;
-import com.kh.toy.common.util.http.HttpUtil;
 import com.kh.toy.member.model.service.MemberService;
 import com.kh.toy.member.model.vo.Member;
 
@@ -77,7 +67,7 @@ public class MemberController extends HttpServlet {
 	
 	private void join(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/view/member/join.jsp")
+		request.getRequestDispatcher("/WEB-INF/views/member/join.jsp")
 		.forward(request, response);
 	}
 	
@@ -113,7 +103,7 @@ public class MemberController extends HttpServlet {
 		request.getSession().setAttribute("persistUser", member);
 		request.setAttribute("msg", "회원가입 완료를 위한 이메일이 발송되었습니다.");
 		request.setAttribute("url", "/index");
-		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		request.getRequestDispatcher("/WEB-INF/views/common/result.jsp")
 		.forward(request, response);
 	}
 	
@@ -127,12 +117,12 @@ public class MemberController extends HttpServlet {
 		
 		request.setAttribute("msg", "회원가입을 축하드립니다.");
 		request.setAttribute("url", "/member/login");
-		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		request.getRequestDispatcher("/WEB-INF/views/common/result.jsp")
 		.forward(request, response);
 	}
 	
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/member/login.jsp")
+		request.getRequestDispatcher("/WEB-INF/views/member/login.jsp")
 		.forward(request, response);
 	}
 	
@@ -141,8 +131,8 @@ public class MemberController extends HttpServlet {
 		Gson gson = new Gson();
 		
 		Map<String,Object> jsonMap = gson.fromJson(jsonData, Map.class);
-		String userId = (String)jsonMap.get("id");
-		String password = (String)jsonMap.get("pw");
+		String userId = (String)jsonMap.get("userId");
+		String password = (String)jsonMap.get("password");
 		
 		Member member = memberService.memberAuthenticate(userId, password);
 		
@@ -162,7 +152,7 @@ public class MemberController extends HttpServlet {
 	
 	private void myPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/WEB-INF/view/member/mypage.jsp")
+		request.getRequestDispatcher("/WEB-INF/views/member/mypage.jsp")
 		.forward(request, response);
 	}
 	

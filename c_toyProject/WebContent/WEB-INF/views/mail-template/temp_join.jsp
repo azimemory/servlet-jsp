@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"
     import="com.kh.toy.common.code.Code"
     %>
-<%@ include file="/WEB-INF/view/include/head.jsp" %>
+<%@ include file="/WEB-INF/views/include/head.jsp" %>
 <body>
 
 <h1>회원가입을 완료해주세요!</h1>

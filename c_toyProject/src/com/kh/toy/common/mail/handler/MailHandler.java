@@ -28,7 +28,7 @@ public class MailHandler extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String template = request.getParameter("mailTemplate");
-		request.getRequestDispatcher("/WEB-INF/view/mail-template/"+template+".jsp")
+		request.getRequestDispatcher("/WEB-INF/views/mail-template/"+template+".jsp")
 		.forward(request, response);
 	}
 

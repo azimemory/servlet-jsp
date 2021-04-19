@@ -1,35 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/view/include/head.jsp" %>
+<%@ include file="/WEB-INF/views/include/head.jsp" %>
 <head>
-	<style type="text/css">
-	.valid_info{
-		display:block;
-		color:red;
-		font-size:0.5vw;
-	}
-	
-	.tit{
-		display:inline-block;
-		width:50px;
-	}
-</style>
+	<link href="/resources/css/member.css" rel="stylesheet">
 </head>
 <body>
+	<%@ include file="/WEB-INF/views/include/header.jsp" %>
 	<h1>로그인</h1>
-	<hr>
-		<span class="tit">ID :</span><input type="text" name="id" id="id"><br>
-		<span class="tit">PW :</span><input type="password" name="pw" id="pw">
-		<span class="valid_info"></span>
-		<button onclick="login()">로그인</button>
-		
+	<span class="valid_info"></span><br>	
+	<span class="tit">ID :</span><input type="text" name="userId" id="id"><br>
+	<span class="tit">PW :</span><input type="password" name="password" id="pw">
+	<button onclick="login()">로그인</button>
+	
 	<script type="text/javascript">
+	
 	let login = () => {
 		
 		const url = '/member/loginimpl';
 		let params = {};
-		params.id = id.value;
-		params.pw = pw.value;
+		params.userId = id.value;
+		params.password = pw.value;
 
 		//post방식으로 진행
 		//헤더 설정
@@ -42,7 +32,7 @@
 		fetch(url,{
 			method:"post",
 			headers:headerObj,
-			body:"data=" + JSON.stringify(params)
+			body:'data='+JSON.stringify(params)
 		})
 		.then(response => {
 			//200번대 응답코드라면
@@ -61,55 +51,9 @@
 		}).catch((error)=>{
 			error.alertMessage();
 		})
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	</script>	
-		
-		
-		
-		
-		
-		
-		
-		
 </body>
-
-
-
-
-
-
-
-
-
-
 
 
 

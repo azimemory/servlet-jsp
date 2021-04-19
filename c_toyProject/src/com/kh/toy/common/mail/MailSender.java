@@ -48,11 +48,11 @@ public class MailSender {
 	private Session getSession() {
 		//1. smtp 통신을 위한 Session 객체 생성
 		//인증정보 저장
-		PasswordAuthentication pa = new PasswordAuthentication(Code.EMAIL.desc,"");
+		PasswordAuthentication pa = new PasswordAuthentication(Code.EMAIL.desc,"336412rhagus");
 		
 		//2. 통신할 smtp서버 설정 작성
 		Properties prop = new Properties();
-		prop.put("mail.smtp.host", "smtp.naver.com");
+		prop.put("mail.smtp.host", "smtp.gmail.com");
 		prop.put("mail.smtp.port", 587);
 		prop.put("mail.smtp.starttls.enable","true");
 		prop.put("mail.smtp.auth", "true");

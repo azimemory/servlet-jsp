@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/view/include/head.jsp" %>
+<%@ include file="/WEB-INF/views/include/head.jsp" %>
 <head>
 	<style type="text/css">
 		.valid_info{
-			display:block; 
 			color:red;
 			font-size: 0.5vw;
 		}
 	</style>
 </head>
 <body>
+ <%@ include file="/WEB-INF/views/include/header.jsp" %>
  <h1>회원 가입 양식</h1>
     <form action="${context}/member/mailauth" method="post" id="frm_join">
      <table>

@@ -12,6 +12,7 @@ import com.kh.toy.common.code.ErrorCode;
 import com.kh.toy.common.exception.DataAccessException;
 import com.kh.toy.common.template.JDBCTemplate;
 import com.kh.toy.common.util.file.FileVo;
+import com.kh.toy.common.util.paging.Paging;
 
 public class BoardDao {
 
@@ -129,6 +130,67 @@ public class BoardDao {
 		}
 		
 		return res;
+	}
+
+	public int allCnt(Connection conn) {
+		String sql ="select count(*) from tb_board";
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		int res = 0;
+		try {
+			pstm = conn.prepareStatement(sql);
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				res = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR,e);
+		}finally {
+			jdt.close(rs,pstm);
+		}
+		
+		return res;
+	}
+
+	public List<Board> selectBoardList(Connection conn, Paging paging) {
+		
+		String sql ="select bd_idx, user_id, title, reg_date"
+				+ "		from("
+				+ "			select rownum rnum, b.*"
+				+ "			from("
+				+ "				select bd_idx, user_id, title, reg_date"
+				+ "				from tb_board"
+				+ "				order by ? " + paging.getDirection()
+				+ "			) b"
+				+ "		) where rnum between ? and ?";
+		
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<Board> boardList = new ArrayList<Board>();
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, paging.getSort());
+			pstm.setInt(2, paging.getQueryStart());
+			pstm.setInt(3, paging.getQueryEnd());
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				Board board = new Board();
+				board.setBdIdx(rs.getString(1));
+				board.setUserId(rs.getString(2));
+				board.setTitle(rs.getString(3));
+				board.setRegDate(rs.getDate(4));
+				
+				boardList.add(board);
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException(ErrorCode.DATABASE_ACCESS_ERROR,e);
+		}finally {
+			jdt.close(rs,pstm);
+		}
+		
+		return boardList;
 	}
 	
 	

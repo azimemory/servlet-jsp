@@ -37,7 +37,7 @@ public class ExceptionHandler extends HttpServlet {
 		
 		request.setAttribute("msg", e.error.desc);
 		request.setAttribute("url", e.error.url);
-		request.getRequestDispatcher("/WEB-INF/view/common/result.jsp")
+		request.getRequestDispatcher("/WEB-INF/views/common/result.jsp")
 		.forward(request, response);
 	}
 
