@@ -2,7 +2,7 @@ package com.kh.toy.member.model.vo;
 
 import java.sql.Date;
 
-//TB_MEMBER 테이블의 ROW 정보를 담을 클래스
+//MEMBER 테이블의 ROW 정보를 담을 클래스
 public class Member {
 	
 	//MVC2 패턴에서 M은 MODEL을 의미함
@@ -24,7 +24,7 @@ public class Member {
 	//date -> java.util.date, java.sql.date
 	//number -> int, double
 	
-	/*   TB_MEMBER 컬럼명
+	/*   MEMBER 컬럼명
 	 *   USER_ID, PASSWORD, EMAIL, GRADE, TELL, REG_DATE
 	 * , RENTABLE_DATE, IS_LEAVE
 	 */

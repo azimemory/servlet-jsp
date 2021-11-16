@@ -33,7 +33,7 @@ public class MemberDao {
 		
 		try {
 			
-			String query = "select * from tb_member where user_id = ? and password = ?";
+			String query = "select * from member where user_id = ? and password = ?";
 			
 			//3. 쿼리 실행용 객체 생성
 			pstm = conn.prepareStatement(query);
@@ -77,7 +77,7 @@ public class MemberDao {
 		ResultSet rset = null;
 		
 		try {
-			String query = "select * from tb_member where user_id = ?";
+			String query = "select * from member where user_id = ?";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, userId);
 			
@@ -109,7 +109,7 @@ public class MemberDao {
 		ResultSet rset = null;
 		
 		try {
-			String query = "select * from tb_member";
+			String query = "select * from member";
 			pstm = conn.prepareStatement(query);
 			rset = pstm.executeQuery();
 			
@@ -139,7 +139,7 @@ public class MemberDao {
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "insert into tb_member(user_id, password, email, tell) "
+			String query = "insert into member(user_id, password, email, tell) "
 					+"values(?,?,?,?)";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, member.getUserId());
@@ -165,7 +165,7 @@ public class MemberDao {
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "update tb_member set password = ? where user_id = ?";
+			String query = "update member set password = ? where user_id = ?";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, member.getPassword());
 			pstm.setString(2, member.getUserId());
@@ -184,7 +184,7 @@ public class MemberDao {
 		PreparedStatement pstm = null;
 		
 		try {
-			String query = "delete from tb_member where user_id = ?";
+			String query = "delete from member where user_id = ?";
 			pstm = conn.prepareStatement(query);
 			pstm.setString(1, userId);
 			res = pstm.executeUpdate();
@@ -204,7 +204,7 @@ public class MemberDao {
 		ResultSet rset = null;
 		
 		try {
-			String query = "select * from tb_member where reg_date between ? and ?";
+			String query = "select * from member where reg_date between ? and ?";
 			pstm = conn.prepareStatement(query);
 			pstm.setDate(1, begin);
 			pstm.setDate(2, end);

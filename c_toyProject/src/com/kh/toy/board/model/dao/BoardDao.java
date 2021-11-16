@@ -19,7 +19,7 @@ public class BoardDao {
 	JDBCTemplate jdt = JDBCTemplate.getInstance();
 	//게시판 테이블에 게시글 저장
 	public void insertBoard(Connection conn, Board board) {
-		String sql = "insert into tb_board "
+		String sql = "insert into board "
 				+ "(bd_idx,user_id,title,content) "
 				+ "values('b'||sc_board_idx.nextval,?,?,?)";
 		PreparedStatement pstm = null;
@@ -47,7 +47,7 @@ public class BoardDao {
 			typeIdx = "'" + fileVo.getTypeIdx() + "'"; 
 		}
 		
-		String sql = "insert into tb_file "
+		String sql = "insert into file "
 				+ "(f_idx,type_idx,origin_file_name,rename_file_name,save_path) "
 				+ "values(sc_file_idx.nextval,"+typeIdx+",?,?,?)";
 		
@@ -72,7 +72,7 @@ public class BoardDao {
 		ResultSet rs = null;
 		String sql = "select "
 				+ "bd_idx,user_id,reg_date,title,content "
-				+ "from tb_board "
+				+ "from board "
 				+ "where bd_idx = ? ";
 		try {
 			pstm = conn.prepareStatement(sql);
@@ -103,7 +103,7 @@ public class BoardDao {
 		ResultSet rs = null;
 		String sql ="select "
 				+ "f_idx,type_idx,origin_file_name,rename_file_name,save_path,reg_date,is_del "
-				+ "from tb_file "
+				+ "from file "
 				+ "where type_idx = ?";
 		
 		try {
@@ -133,7 +133,7 @@ public class BoardDao {
 	}
 
 	public int allCnt(Connection conn) {
-		String sql ="select count(*) from tb_board";
+		String sql ="select count(*) from board";
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		int res = 0;
@@ -160,7 +160,7 @@ public class BoardDao {
 				+ "			select rownum rnum, b.*"
 				+ "			from("
 				+ "				select bd_idx, user_id, title, reg_date"
-				+ "				from tb_board"
+				+ "				from board"
 				+ "				order by ? " + paging.getDirection()
 				+ "			) b"
 				+ "		) where rnum between ? and ?";
